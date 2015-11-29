@@ -10,10 +10,10 @@ import random
 import smtplib
 import getpass
 
-names = [("Joe", "joe@email.com", "Fluffy", "the Brooklyn office", "Fluffy is crazy for catnip!"), \
-        ("Mike", "mike@email.com", "Fish and Chips", "the Hudson office", "Fish and Chips are tearing up my furniture, they need a scratching post."), \
-        ("Anne", "anne@email.com", "Naga and Momo", "the Brooklyn office", "Naga and Momo love toys with feathers."), \
-        ("Sally", "sally@email.com", "Romeow", "123 State Street, Seattle, WA  00123", "Romeow likes toys that dangle from strings.")]
+names = [("Joe", "joe@gmail.com", "Fluffy", "the Brooklyn office", "Fluffy is crazy for catnip!"), \
+        ("Mike", "mike@gmail.com", "Fish and Chips", "the Hudson office", "Fish and Chips are tearing up my furniture, they need a scratching post."), \
+        ("Anne", "anne@gmail.com", "Naga and Momo", "the Brooklyn office", "Naga and Momo love toys with feathers."), \
+        ("Sally", "sally@gmail.com", "Romeow", "123 State Street, Seattle, WA  00123", "Romeow likes toys that dangle from strings.")]
 
 numNames = len(names) - 1
 
@@ -63,10 +63,10 @@ Greetings %s! Using a very carefully derived formula (and a little bit of magic)
 
 Proud owner, %s, says: %s
 
-Please mail your gift to %s by %s.
+Please mail your gift to %s at %s by %s.
 
 Have a nice day!
---Santa's Helper""" % (fromAddr, toName, toAddr, toName, secretCats, secretName, secretNotes, secretAddress, dueDate)
+--Santa's Helper""" % (fromAddr, toName, toAddr, toName, secretCats, secretName, secretNotes, secretName, secretAddress, dueDate)
     return msg
 
 def main(argv):
