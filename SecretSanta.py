@@ -10,14 +10,16 @@ import random
 import smtplib
 import getpass
 
-names = [("Example User 1", "email_1@gmail.com"), \
-         ("Example User 2", "email_2@gmail.com"), \
-         ("Example User 3", "email_3@gmail.com"), \
-         ("Example User 4", "email_4@gmail.com")]
+names = [("Joe", "joe@email.com", "Fluffy", "the Brooklyn office", "Fluffy is crazy for catnip!"), \
+        ("Mike", "mike@email.com", "Fish and Chips", "the Hudson office", "Fish and Chips are tearing up my furniture, they need a scratching post."), \
+        ("Anne", "anne@email.com", "Naga and Momo", "the Brooklyn office", "Naga and Momo love toys with feathers."), \
+        ("Sally", "sally@email.com", "Romeow", "123 State Street, Seattle, WA  00123", "Romeow likes toys that dangle from strings.")]
 
 numNames = len(names) - 1
 
-fromaddr = "your_secret_santa_email@gmail.com"
+dueDate = "Tues Dec 15"
+
+fromAddr = "your_secret_santa_email@gmail.com"
 username = "your_secret_santa_email"
 password = "********"
 
@@ -42,23 +44,38 @@ def setupMailServer():
     return server
 
 def buildEmail(toAddr, toName, secretName):
-    msg = """From: Secret Santa <your_secret_santa_email@gmail.com>
+    msg = """From: Secret Santa <%s>
 To: %s <%s>
 Subject: Your Secret Santa Assignment!
 
 Greetings %s! Using a very carefully derived formula (and a little bit of magic), the Secret Santa Program has picked you to be the Secret Santa for %s!!!
 
 Have a nice day!
---Santa's Helper""" % (toName, toAddr, toName, secretName)
+--Santa's Helper""" % (fromAddr, toName, toAddr, toName, secretName)
+    return msg
+
+def buildCatsEmail(toAddr, toName, secretName, secretCats, secretAddress, secretNotes):
+    msg = """From: Secret Santa <%s>
+To: %s <%s>
+Subject: Your Secret Santa Assignment!
+
+Greetings %s! Using a very carefully derived formula (and a little bit of magic), the Secret Santa Program has picked you to be the Secret Santa for %s!!!
+
+Proud owner, %s, says: %s
+
+Please mail your gift to %s by %s.
+
+Have a nice day!
+--Santa's Helper""" % (fromAddr, toName, toAddr, toName, secretCats, secretName, secretNotes, secretAddress, dueDate)
     return msg
 
 def main(argv):
     mode = 'test'
-    # file = ''
+    type = 'simple'
     try:
-        opts, args = getopt.getopt(argv,"m:f:",["mode=","file="])
+        opts, args = getopt.getopt(argv,"m:t:",["mode=","type="])
     except getopt.GetoptError:
-        print 'SecretSanta.py [-m <test|longtest|exec>] [-f <file>]'
+        print 'SecretSanta.py [-m <test|longtest|exec>] [-t <simple|cats>] '
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("-m", "--mode"):
@@ -68,8 +85,13 @@ def main(argv):
             else:
                 print '%s is not a valid mode, please use "test" or "longtest" or "exec"' % (arg)
                 sys.exit(2)
-        # elif opt in ("-f", "--file"):
-            # file = arg
+        elif opt in ("-t", "--type"):
+            arg = arg.lower()
+            if arg == 'simple' or arg == 'cats':
+                type = arg
+            else:
+                print '%s is not a valid type, please use "simple" or "cats"' % (arg)
+                sys.exit(2)
 
     print 'Running in %s mode' % (mode)
     if mode != 'exec':
@@ -87,10 +109,17 @@ def main(argv):
         if i == numNames:
             nextIndex = 0
         secret = names[nextIndex][0]
-        msg = buildEmail(santaEmail, santa, secret)
+
+        if type == 'cats':
+            secretCats = names[nextIndex][2]
+            secretAddress = names[nextIndex][3]
+            secretNotes = names[nextIndex][4]
+            msg = buildCatsEmail(santaEmail, santa, secret, secretCats, secretAddress, secretNotes)
+        else:
+            msg = buildEmail(santaEmail, santa, secret)
 
         if mode == 'exec':
-            server.sendmail(fromaddr, santaEmail, msg)
+            server.sendmail(fromAddr, santaEmail, msg)
         elif mode == 'longtest':
             print '------------------------'
             print msg
