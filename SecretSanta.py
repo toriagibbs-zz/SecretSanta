@@ -55,11 +55,9 @@ Have a nice day!
 
 
 CATS_TEMPLATE = """
-
 Proud owner, {secret_name}, says: {secret_notes}
 
 Please mail your gift to {secret_name} at {secret_address} by {due_date}.
-
 """
 
 
