@@ -38,7 +38,7 @@ optional arguments:
                         username for email account
   -p PASSWORD, --password PASSWORD
                         password for email account
-  -r {gmail}, --provider {gmail}
+  -r {yahoo,gmail}, --provider {yahoo,gmail}
                         email provider
   -d DUE_DATE, --due-date DUE_DATE
                         due date in YYYY-MM-DD format

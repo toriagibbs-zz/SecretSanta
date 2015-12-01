@@ -32,6 +32,7 @@ class Type(StringEnum):
 
 class Provider(StringEnum):
     GMAIL = 'gmail'
+    YAHOO = 'yahoo'
 
 
 ProviderInfo = collections.namedtuple('ProviderInfo', ['hostname', 'port', 'ssl'])
@@ -39,6 +40,7 @@ ProviderInfo = collections.namedtuple('ProviderInfo', ['hostname', 'port', 'ssl'
 
 PROVIDER_INFO = {
     Provider.GMAIL: ProviderInfo('smtp.gmail.com', 465, True),
+    Provider.YAHOO: ProviderInfo('smtp.mail.yahoo.com', 465, True),
 }
 
 
